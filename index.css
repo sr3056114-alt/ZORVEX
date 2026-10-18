@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg-main: #12161f;
+  --bg-panel: #1b212c;
+  --hover-bg: #242c3b;
+  --hover-bg-strong: #2c3647;
+  --border-color: #27303f;
+  --text-primary: #ffffff;
+  --text-muted: #8593a6;
+}
+
+.theme-light {
+  --bg-main: #f4f6f9;
+  --bg-panel: #ffffff;
+  --hover-bg: #eaeff5;
+  --hover-bg-strong: #dfe5ee;
+  --border-color: #e2e8f0;
+  --text-primary: #111827;
+  --text-muted: #64748b;
+}
+
+.theme-twilight {
+  --bg-main: #181d26;
+  --bg-panel: #202733;
+  --hover-bg: #2b3342;
+  --hover-bg-strong: #333d4e;
+  --border-color: #2e3747;
+  --text-primary: #ffffff;
+  --text-muted: #94a3b8;
+}
+
+.theme-full-night {
+  --bg-main: #0c0e14;
+  --bg-panel: #141720;
+  --hover-bg: #1c212d;
+  --hover-bg-strong: #242a3a;
+  --border-color: #1f2533;
+  --text-primary: #ffffff;
+  --text-muted: #788496;
+}
+
+/* Custom sleek scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+.animate-pulse-glow {
+  animation: pulseGlow 2s infinite ease-in-out;
+}

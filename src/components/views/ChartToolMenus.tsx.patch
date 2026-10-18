@@ -1,0 +1,27 @@
+--- src/components/views/ChartToolMenus.tsx
++++ src/components/views/ChartToolMenus.tsx
+@@ -72,7 +72,7 @@
+   );
+ };
+ 
+-export const DrawingsMenu = ({ onClose, onSelect, activeDrawings = [], onRemove, onClearAll }: { onClose: () => void; onSelect?: (drawing: string) => void; activeDrawings?: any[]; onRemove?: (id: string) => void; onClearAll?: () => void }) => {
++export const DrawingsMenu = ({ onClose, onSelect, activeDrawings = [], onRemove, onClearAll, drawingColor = '#1e88e5', onColorChange }: { onClose: () => void; onSelect?: (drawing: string) => void; activeDrawings?: any[]; onRemove?: (id: string) => void; onClearAll?: () => void; drawingColor?: string; onColorChange?: (color: string) => void }) => {
+   return (
+     <SidePanel title="Drawings" onClose={onClose} onClearAll={onClearAll}>
+       <div className="p-4">
++        <div className="mb-6">
++          <div className="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-wider mb-2">Color</div>
++          <div className="flex gap-2">
++            {['#1e88e5', '#0ba259', '#e33f4a', '#f59e0b', '#ffffff'].map(color => (
++              <button
++                key={color}
++                onClick={() => onColorChange && onColorChange(color)}
++                className="w-8 h-8 rounded-full border-2"
++                style={{ backgroundColor: color, borderColor: drawingColor === color ? '#fff' : 'transparent' }}
++              />
++            ))}
++          </div>
++        </div>
++
+         {activeDrawings.length > 0 && (
+           <div className="mb-6">

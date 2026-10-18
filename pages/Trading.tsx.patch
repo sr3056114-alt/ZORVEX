@@ -1,0 +1,46 @@
+--- pages/Trading.tsx
++++ pages/Trading.tsx
+@@ -10,7 +10,7 @@
+ import { createChart, ColorType, IChartApi, ISeriesApi, Time, CandlestickSeries, IPriceLine } from 'lightweight-charts';
+ import AccountView from '../src/components/views/AccountView';
+ import SupportView from '../src/components/views/SupportView';
+ import MarketView from '../src/components/views/MarketView';
+ import MoreView from '../src/components/views/MoreView';
++import FullscreenModal from '../src/components/views/FullscreenModal';
+ 
+ export type AssetInfo = {
+@@ -51,7 +51,9 @@
+   const chartRef = useRef<IChartApi | null>(null);
+   const seriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
+   const currentPriceLineRef = useRef<IPriceLine | null>(null);
+ 
+-  const [currentView, setCurrentView] = useState<'TRADE' | 'SUPPORT' | 'ACCOUNT' | 'TOURNAMENTS' | 'MARKET' | 'MORE'>('TRADE');
++  const [currentView, setCurrentView] = useState<'TRADE' | 'SUPPORT' | 'ACCOUNT' | 'TOURNAMENTS' | 'MARKET' | 'MORE' | 'SETTINGS'>('TRADE');
++  const [isFullscreenModalOpen, setIsFullscreenModalOpen] = useState(false);
++  const [themeMode, setThemeMode] = useState<'Light' | 'Twilight' | 'Night'>('Night');
+   const [isMuted, setIsMuted] = useState(false);
+ 
+@@ -866,8 +868,8 @@
+         </div>
+         <div className="flex flex-col gap-3 w-full items-center">
+-          <button onClick={() => alert('Grid apps menu')} className="w-8 h-8 rounded hover:bg-[#2a303d] flex items-center justify-center transition-colors text-[#8390a0] hover:text-white"><Grid size={16}/></button>
+-          <button onClick={() => alert('Settings menu')} className="w-8 h-8 rounded hover:bg-[#2a303d] flex items-center justify-center transition-colors text-[#8390a0] hover:text-white"><Settings size={16}/></button>
+-          <button onClick={() => setIsMuted(!isMuted)} className="w-8 h-8 rounded hover:bg-[#2a303d] flex items-center justify-center transition-colors text-[#8390a0] hover:text-white">{isMuted ? <VolumeX size={16}/> : <Volume2 size={16}/>}</button>
++          <button onClick={() => setIsFullscreenModalOpen(true)} className="w-8 h-8 rounded hover:bg-[#2a303d] flex items-center justify-center transition-colors text-[#8390a0] hover:text-white"><Grid size={16}/></button>
++          <button onClick={() => setIsFullscreenModalOpen(true)} className="w-8 h-8 rounded hover:bg-[#2a303d] flex items-center justify-center transition-colors text-[#8390a0] hover:text-white"><Settings size={16}/></button>
+           <button onClick={() => alert('Join Us modal')} className="w-10 h-10 bg-[#2a303d] rounded text-white flex flex-col items-center justify-center mt-2 hover:bg-[#3b4353] transition-colors">
+             <Users size={16}/>
+             <span className="text-[7px] font-bold mt-0.5">JOIN US</span>
+@@ -984,5 +986,13 @@
+           )}
+       </div>
++      {/* FULLSCREEN MODAL LAYER */}
++      {isFullscreenModalOpen && (
++        <FullscreenModal 
++          onClose={() => setIsFullscreenModalOpen(false)} 
++          initialTheme={themeMode}
++          onThemeChange={setThemeMode}
++        />
++      )}
+       {/* RIGHT SIDEBAR (TRADING CONTROLS) */}
+       {currentView === 'TRADE' && (

@@ -1,0 +1,8 @@
+{
+  "name": "RAJADHAN Gaming Dashboard",
+  "description": "A high-performance, visually stunning gaming platform dashboard with real-time rewards, popular game titles, and a comprehensive referral system.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

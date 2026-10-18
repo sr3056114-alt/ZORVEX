@@ -1,0 +1,180 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and authentication data",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "status": { "type": "string", "enum": ["ACTIVE", "SUSPENDED", "PENDING"] },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["uid", "email", "status", "createdAt"]
+    },
+    "UserActivity": {
+      "title": "UserActivity",
+      "description": "User session and activity tracking",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "action": { "type": "string" },
+        "timestamp": { "type": "number" },
+        "ipAddress": { "type": "string" },
+        "device": { "type": "string" }
+      },
+      "required": ["userId", "action", "timestamp"]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Admin access control and roles",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "roleId": { "type": "string" },
+        "email": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["uid", "roleId", "email"]
+    },
+    "Role": {
+      "title": "Role",
+      "description": "Role definitions (RBAC)",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "permissions": { "type": "array", "items": { "type": "string" }, "maxLength": 50 }
+      },
+      "required": ["name", "permissions"]
+    },
+    "KYC": {
+      "title": "KYC",
+      "description": "KYC verification records",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "status": { "type": "string", "enum": ["PENDING", "APPROVED", "REJECTED"] },
+        "frontImageUrl": { "type": "string" },
+        "backImageUrl": { "type": "string" },
+        "submittedAt": { "type": "number" },
+        "reviewedAt": { "type": "number" },
+        "reviewerId": { "type": "string" }
+      },
+      "required": ["userId", "status", "submittedAt"]
+    },
+    "DemoWallet": {
+      "title": "DemoWallet",
+      "description": "Demo trading balances",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "balance": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["userId", "balance", "updatedAt"]
+    },
+    "DemoLedger": {
+      "title": "DemoLedger",
+      "description": "Immutable ledger of demo balance changes",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "amount": { "type": "number" },
+        "type": { "type": "string", "enum": ["DEPOSIT", "WITHDRAWAL", "TRADE_WIN", "TRADE_LOSS", "TRADE_TIE"] },
+        "referenceId": { "type": "string" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["userId", "amount", "type", "timestamp"]
+    },
+    "DemoTrade": {
+      "title": "DemoTrade",
+      "description": "Demo trading records",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "asset": { "type": "string" },
+        "type": { "type": "string", "enum": ["UP", "DOWN"] },
+        "amount": { "type": "number" },
+        "entryPrice": { "type": "number" },
+        "exitPrice": { "type": "number" },
+        "pnl": { "type": "number" },
+        "status": { "type": "string", "enum": ["OPEN", "CLOSED"] },
+        "entryTime": { "type": "number" },
+        "expireTime": { "type": "number" }
+      },
+      "required": ["userId", "asset", "type", "amount", "entryPrice", "status", "entryTime"]
+    },
+    "Instrument": {
+      "title": "Instrument",
+      "description": "Trading instruments definitions",
+      "type": "object",
+      "properties": {
+        "symbol": { "type": "string" },
+        "name": { "type": "string" },
+        "payoutRate": { "type": "number" },
+        "isActive": { "type": "boolean" }
+      },
+      "required": ["symbol", "name", "payoutRate", "isActive"]
+    },
+    "SupportTicket": {
+      "title": "SupportTicket",
+      "description": "Customer support tickets",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "subject": { "type": "string" },
+        "status": { "type": "string", "enum": ["OPEN", "IN_PROGRESS", "RESOLVED"] },
+        "messages": { "type": "array", "maxLength": 100 },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["userId", "subject", "status", "createdAt"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Immutable log of admin actions",
+      "type": "object",
+      "properties": {
+        "adminId": { "type": "string" },
+        "action": { "type": "string" },
+        "targetId": { "type": "string" },
+        "details": { "type": "string" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["adminId", "action", "timestamp"]
+    },
+    "SystemSetting": {
+      "title": "SystemSetting",
+      "description": "Global system settings",
+      "type": "object",
+      "properties": {
+        "key": { "type": "string" },
+        "value": { "type": "string" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["key", "value"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": { "schema": { "$ref": "#/entities/User" }, "description": "User profiles" },
+    "userActivity/{activityId}": { "schema": { "$ref": "#/entities/UserActivity" }, "description": "User activities" },
+    "adminUsers/{adminId}": { "schema": { "$ref": "#/entities/AdminUser" }, "description": "Admin users" },
+    "roles/{roleId}": { "schema": { "$ref": "#/entities/Role" }, "description": "RBAC Roles" },
+    "kyc/{kycId}": { "schema": { "$ref": "#/entities/KYC" }, "description": "KYC requests" },
+    "demoWallets/{userId}": { "schema": { "$ref": "#/entities/DemoWallet" }, "description": "Demo wallets by user" },
+    "demoLedger/{ledgerId}": { "schema": { "$ref": "#/entities/DemoLedger" }, "description": "Ledger of demo balance changes" },
+    "demoTrades/{tradeId}": { "schema": { "$ref": "#/entities/DemoTrade" }, "description": "Demo trades" },
+    "instruments/{instrumentId}": { "schema": { "$ref": "#/entities/Instrument" }, "description": "Trading instruments" },
+    "supportTickets/{ticketId}": { "schema": { "$ref": "#/entities/SupportTicket" }, "description": "Support tickets" },
+    "auditLogs/{logId}": { "schema": { "$ref": "#/entities/AuditLog" }, "description": "Admin audit logs" },
+    "settings/{settingId}": { "schema": { "$ref": "#/entities/SystemSetting" }, "description": "Global settings" },
+    "marketData/{docId}": { "schema": { "title": "MarketData", "type": "object", "properties": { "currentPrice": { "type": "number" } } }, "description": "Live market quotes" },
+    "paymentMethods/{methodId}": { "schema": { "title": "PaymentMethod", "type": "object", "properties": { "name": { "type": "string" } } }, "description": "Payment gateways and methods" },
+    "promotions/{promoId}": { "schema": { "title": "Promotion", "type": "object", "properties": { "code": { "type": "string" } } }, "description": "Promotional offers" },
+    "affiliates/{affId}": { "schema": { "title": "Affiliate", "type": "object", "properties": { "userId": { "type": "string" } } }, "description": "Affiliate partners" },
+    "tournaments/{tourId}": { "schema": { "title": "Tournament", "type": "object", "properties": { "name": { "type": "string" } } }, "description": "Trading tournaments" },
+    "notifications/{notifId}": { "schema": { "title": "Notification", "type": "object", "properties": { "title": { "type": "string" } } }, "description": "System and user notifications" }
+  }
+}
